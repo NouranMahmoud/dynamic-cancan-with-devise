@@ -10,7 +10,9 @@ Role.create(name: 'Broker')
 Role.create(name: 'Visitor')
 
 Permission.create(action: 'manage', subject_class:'all',name:'FullAdmin')
-role=Role.find_by_name('Admin').id
-User.create(email: "admin@admin.com", password: "12345678", password_confirmation: "12345678", role_id: role )
-role2=Role.find_by_name('Visitor').id
-User.create(email: "guest@guest.com", password: "12345678", password_confirmation: "12345678", role_id: role)
+adminRole=Role.find_by_name('Admin')
+adminRole.permissions << Permission.first
+adminRole.save()
+User.create(email: "admin@admin.com", password: "12345678", password_confirmation: "12345678", role_id: adminRole.id )
+visitorRole=Role.find_by_name('Visitor')
+User.create(email: "guest@guest.com", password: "12345678", password_confirmation: "12345678", role_id: visitorRole.id)

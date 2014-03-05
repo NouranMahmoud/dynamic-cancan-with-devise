@@ -1,0 +1,29 @@
+<h1>Listing Items </h1>
+<%= link_to "Add New Item" , new_item_path if can? :create, Item %>
+<% @item.each do |i| %>
+   <% if i.removed == false %>
+  <p> <%= i.listingtype %>  
+   | <%= link_to "Show this item" , item_path(i)  if can? :show, Item %> | 
+   <div class="delete">
+     <%= link_to "Delete" if can? :only_hide, Item %> 
+   </div>
+   <input type = "hidden" value = "<%= i.id %>"  class = "id" >
+  </p>
+<p><%= link_to "back to dashboard" , dashboard_index_path %></p>
+   <% end %>
+<% end %>
+<script>
+$(document).ready(function()
+{
+   $(".delete").click(function()
+   {
+      console.log($(this).next().val())
+      var url = "/hide_item/" + $(this).next().val()
+      $(this).hide(); 
+      $.post(url);
+
+    });
+});
+</script>
+
+
